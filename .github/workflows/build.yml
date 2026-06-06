@@ -17,9 +17,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-13, windows-latest, ubuntu-latest]
+        os: [macos-latest, windows-latest, ubuntu-latest]
         include:
-          - os: macos-13
+          - os: macos-latest
             target: 'build:mac:arm64'
             artifact_name: 'AntSword-macOS-arm64'
           - os: windows-latest
@@ -34,17 +34,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
 
-      - name: Generate package-lock.json
-        run: npm install --package-lock-only --legacy-peer-deps
-
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: |
+          npm config set electron_mirror https://npmmirror.com/mirrors/electron/
+          npm install --legacy-peer-deps
         env:
           ELECTRON_MIRROR: https://npmmirror.com/mirrors/electron/
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
 
       - name: Build application
         run: npm run ${{ matrix.target }}
