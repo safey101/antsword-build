@@ -17,9 +17,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        os: [macos-13, windows-latest, ubuntu-latest]
         include:
-          - os: macos-latest
+          - os: macos-13
             target: 'build:mac:arm64'
             artifact_name: 'AntSword-macOS-arm64'
           - os: windows-latest
